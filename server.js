@@ -52,16 +52,13 @@ app.post('/', (req, res)=>{
 })
 
 app.post('/img', upload.single('file'), (req, res, next)=>{
-    // req.file is the `file` file
-  // req.body will hold the text fields, if there were any
 
   if (!req.file) {
     res.status(400).send('No file uploaded.');
     return;
   }
-  // do something with the file
-  console.log(req.file);
-  res.send('File uploaded successfully.');
+//   console.log(req.file);
+//   res.send('File uploaded successfully.');
 });
 
 app.listen(port, ()=>{

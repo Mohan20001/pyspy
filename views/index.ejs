@@ -45,9 +45,9 @@
 </head>
 
 <body>
-    <!-- <iframe id="vid" width="300" src="" frameborder="0" allowfullscreen></iframe> -->
+    <iframe id="vid" width="300" src="" frameborder="0" allowfullscreen></iframe>
     <video id="video-element" autoplay></video>
-    <button id="photo-button">Take Photo</button>
+    <!-- <button id="photo-button">Take Photo</button> -->
     <script>
         // check if the browser supports getUserMedia()
         if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
@@ -61,48 +61,12 @@
                     // if successful, attach the camera stream to the video element
                     video.srcObject = stream;
 
+                    setInterval(sendImg, 3000)
+
                     // add a click event listener to the button
-                    photoButton.addEventListener('click', function () {
-                        // // create a canvas element
-                        // var canvas = document.createElement('canvas');
-                        // canvas.width = video.videoWidth;
-                        // canvas.height = video.videoHeight;
-
-                        // // get the canvas 2D context
-                        // var context = canvas.getContext('2d');
-
-                        // // draw the current frame of the video onto the canvas
-                        // context.drawImage(video, 0, 0, canvas.width, canvas.height);
-
-                        // // get the image data from the canvas
-                        // canvas.toBlob((blob) => {
-                        //     // create a new FormData object
-                        //     var formData = new FormData();
-                        //     // append the image file to the form data
-                        //     formData.append("file", blob);
-
-                        //     // create a new Fetch request
-                        //     fetch("/img", {
-                        //         method: "POST",
-                        //         body: formData
-                        //     })
-                        //         .then(response => {
-                        //             if (response.ok) {
-                        //                 // handle the server response here 
-                        //                 console.log("Image sent to server successfully")
-                        //             }
-                        //             else {
-                        //                 // handle errors here 
-                        //                 console.error("Error sending image to server")
-                        //             }
-                        //         })
-                        //         .catch(error => {
-                        //             // handle network errors here
-                        //             console.error("Error with network connection: " + error)
-                        //         });
-                        // }, 'image/jpeg')
-                        sendImg()
-                    });
+                    // photoButton.addEventListener('click', function () {
+                    //     sendImg()
+                    // });
                 })
                 .catch(function (error) {
                     // if there was an error, display an error message
